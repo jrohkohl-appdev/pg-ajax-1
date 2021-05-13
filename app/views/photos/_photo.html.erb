@@ -31,11 +31,13 @@
         <% like = current_user.likes.find_by(photo: photo) %>
 
         <% if like %>
-          <%= link_to like, class: "btn btn-link", method: :delete do %>
-            <i class="fas fa-heart fa-fw"></i>
+          <div id="<%= dom_id(like.photo) %>_<%= dom_id(like) %>">
+            <%= link_to like, class: "btn btn-link", method: :delete, remote: true do %>
+              <i class="fas fa-heart fa-fw"></i>
 
-            Un-like
-          <% end %>
+              Un-like
+            <% end %>
+          </div>
         <% else %>
           <%= render "likes/form", like: photo.likes.build(fan: current_user) %>
         <% end %>
@@ -57,6 +59,7 @@
       <% photo.comments.default_order.each do |comment| %>
         <%= render "comments/comment", comment: comment %>
       <% end %>
+      
       
       <%= render "comments/form", comment: photo.comments.build %>
     </ul>
